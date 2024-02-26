@@ -17,6 +17,9 @@ function M.config()
     view = {
       relativenumber = true,
     },
+    filters = {
+      dotfiles = true,
+    },
     renderer = {
       add_trailing = false,
       group_empty = false,
