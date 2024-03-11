@@ -1,6 +1,6 @@
 local function config()
   require('nvim-treesitter.configs').setup({
-    ensure_installed = {"lua", "vim", "javascript", "go", "json", "yaml"},
+    ensure_installed = {"lua", "vim", "vimdoc", "javascript", "go", "json", "yaml"},
     auto_install = true,
     highlight = { enable = true },
     indent = { enable = true },
