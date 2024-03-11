@@ -1,4 +1,8 @@
 local function config()
+    require('catppuccin').setup({
+      flavour = "mocha",
+      transparent_background = false,
+    })
     vim.cmd.colorscheme "catppuccin"
 end
 
@@ -9,5 +13,4 @@ return {
   priority = 1000, -- make sure to load this before all the other start plugins
   config = config,
 }
-
 
