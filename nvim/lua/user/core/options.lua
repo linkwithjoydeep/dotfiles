@@ -2,6 +2,11 @@
 -- See `:help vim.opt`
 --  For more options, see `:help option-list`
 
+-- Tab behaviour
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+
 -- Make line numbers default
 vim.opt.number = true
 -- vim.opt.relativenumber = true

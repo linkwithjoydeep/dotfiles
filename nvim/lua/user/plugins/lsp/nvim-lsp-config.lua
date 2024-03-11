@@ -24,12 +24,10 @@ local function loadKeymaps(buf)
   keymaps({ 'n', 'v' }, '<leader>ca', lsp_buf.code_action, "[c]ode [a]ctions", buf)
   -- keymaps('n', 'gr', lsp_buf.references, "[G]oto [r]eferences", buf)
   keymaps('n', 'gr', builtin.lsp_references, "[G]oto [r]eferences", buf)
-  keymaps('n', '<leader>f', function()
-    lsp_buf.format { async = true }
-  end, "[F]ormat", buf)
 end
 
 local function config()
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   local lspconfig = require('lspconfig')
 
   vim.api.nvim_create_autocmd('LspAttach', {
@@ -40,10 +38,14 @@ local function config()
     end
   })
 
+  lspconfig.lua_ls.setup({
+    capabilities = capabilities
+  })
 
+  lspconfig.gopls.setup({
+    capabilities = capabilities
+  })
 
-  lspconfig.lua_ls.setup({})
-  lspconfig.gopls.setup({})
 end
 
 return {
