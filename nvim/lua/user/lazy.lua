@@ -21,7 +21,7 @@ require("lazy").setup(
         { import = "user.plugins.ui" },
         { import = "user.plugins.completions" },
         { import = "user.plugins.lsp" },
-        -- { import = "user.plugins.dap" },
+        { import = "user.plugins.dap" },
     },
     {
         install = {
