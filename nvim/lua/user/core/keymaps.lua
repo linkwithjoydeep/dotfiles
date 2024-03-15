@@ -19,10 +19,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -33,4 +33,36 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Add zz to center the lines after searching
+-- Move to the next occurrence of the search string and center
+local opts = {}
+
+vim.keymap.set("n", "n", "nzz", opts)
+
+-- Move to the prev occurrence of the search string and center
+vim.keymap.set("n", "N", "Nzz", opts)
+
+-- Move to the next occurrence of the word under the custor and center
+vim.keymap.set("n", "*", "*zz", opts)
+
+-- Move to the prev occurrence of the search string and center
+vim.keymap.set("n", "#", "#zz", opts)
+
+vim.keymap.set("n", "g*", "g*zz", opts)
+vim.keymap.set("n", "g#", "g#zz", opts)
+
+
+-- Indent lines left right and still stay in visual mode
+vim.keymap.set("v", "<", "<gv", opts)
+vim.keymap.set("v", ">", ">gv", opts)
+
+-- prevent the replaced word from going into register when pasting over a word
+vim.keymap.set("x", "p", [["_dP]])
+
+-- Move to the start and end of line char easily
+vim.keymap.set({"n", "o", "x"}, "<s-h>", "^", opts)
+vim.keymap.set({"n", "o", "x"}, "<s-l>", "g_", opts)
+
+-- escape out of the terminal window
+vim.keymap.set('t', '<C-;>', '<C-\\><C-n>', opts)
 

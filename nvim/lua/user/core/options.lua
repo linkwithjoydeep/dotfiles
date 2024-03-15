@@ -9,7 +9,7 @@ vim.opt.shiftwidth = 2
 
 -- Make line numbers default
 vim.opt.number = true
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -61,5 +61,34 @@ vim.opt.scrolloff = 10
 -- Set highlight on search
 vim.opt.hlsearch = true
 
- -- enable 24-bit colour
- vim.opt.termguicolors = true
+-- enable 24-bit colour
+vim.opt.termguicolors = true
+
+-- Controls how concealed text, such as double backticks ("``") in Markdown files, is displayed.
+-- Setting it to 0 ensures that concealed text is fully visible.
+vim.opt.conceallevel = 0
+
+-- Pop up menu height and opacity
+vim.opt.pumheight = 10
+vim.opt.pumblend = 10
+
+-- Show tabs
+vim.opt.showtabline = 1
+
+-- Stop setting terminal title to file name
+vim.opt.title = false
+
+-- This setting configures the behavior of Vim's built-in completion menu.
+-- "menuone" ensures that the completion menu is always shown, even if there's only one match.
+-- "noselect" prevents Vim from automatically selecting the first completion item.
+vim.opt.completeopt = { "menuone", "noselect" }
+
+--  Vim automatically adjusts indentation based on the syntax of the file you're editing.
+vim.opt.smartindent = true
+
+-- wrap lines always
+vim.opt.wrap = true
+
+-- disable netrw explorer banner and mouse support
+vim.g.netrw_banner = 0
+vim.g.netrw_mouse = 2

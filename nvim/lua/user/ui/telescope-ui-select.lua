@@ -1,5 +1,8 @@
+local M = {
+    'nvim-telescope/telescope-ui-select.nvim',
+}
 
-local function config()
+M.config = function()
   -- This is your opts table
   require("telescope").setup {
     extensions = {
@@ -13,7 +16,4 @@ local function config()
   require("telescope").load_extension("ui-select")
 end
 
-return {
-  'nvim-telescope/telescope-ui-select.nvim',
-  config = config,
-}
+return M

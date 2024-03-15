@@ -1,4 +1,8 @@
-local function config()
+local M = {
+	"nvimtools/none-ls.nvim",
+}
+
+M.config = function()
 	local null_ls = require("null-ls")
 	null_ls.setup({
 		sources = {
@@ -13,7 +17,4 @@ local function config()
 	vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, { desc = "[F]ormat" })
 end
 
-return {
-	"nvimtools/none-ls.nvim",
-	config = config,
-}
+return M
