@@ -147,7 +147,7 @@ M.config = function()
 				end
 
 				if entry.source.name == "copilot" then
-					vim_item.kind = icons.misc.Robot
+					vim_item.kind = icons.misc.Octoface
 					vim_item.kind_hl_group = "Cm1pItemKindCopilot"
 				end
 
