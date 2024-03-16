@@ -25,6 +25,9 @@ spec "user.lsp.nvim-lsp-config"
 spec "user.lsp.cmp"
 spec "user.lsp.none-ls"
 
+-- Debug adapters
+spec "user.dap.nvim-dap"
+
 -- Misc
 spec "user.misc.which-key"
 
