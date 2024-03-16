@@ -1,11 +1,9 @@
-
 local M = {
 	"mfussenegger/nvim-dap",
 }
 
 M.dependencies = {
 	"rcarriga/nvim-dap-ui",
-	"leoluz/nvim-dap-go",
 }
 
 M.config = function()
@@ -14,7 +12,6 @@ M.config = function()
 	-- require("dap.ext.vscode").load_launchjs()
 
 	require("dapui").setup({})
-	require("dap-go").setup({})
 
 	dap.listeners.before.attach.dapui_config = function()
 		dapui.open()
