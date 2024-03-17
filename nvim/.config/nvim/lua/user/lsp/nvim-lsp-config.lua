@@ -71,9 +71,9 @@ M.config = function()
 			active = true,
 			values = {
 				{ name = "DiagnosticSignError", text = icons.diagnostics.Error },
-				{ name = "DiagnosticSignWarn",  text = icons.diagnostics.Warning },
-				{ name = "DiagnosticSignHint",  text = icons.diagnostics.Hint },
-				{ name = "DiagnosticSignInfo",  text = icons.diagnostics.Information },
+				{ name = "DiagnosticSignWarn", text = icons.diagnostics.Warning },
+				{ name = "DiagnosticSignHint", text = icons.diagnostics.Hint },
+				{ name = "DiagnosticSignInfo", text = icons.diagnostics.Information },
 			},
 		},
 		virtual_text = false,
@@ -98,7 +98,7 @@ M.config = function()
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 	vim.lsp.handlers["textDocument/signatureHelp"] =
-			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+		vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 	require("lspconfig.ui.windows").default_options.border = "rounded"
 
 	for _, server in pairs(servers) do
@@ -114,6 +114,12 @@ M.config = function()
 
 		if server == "lua_ls" then
 			require("neodev").setup({})
+		end
+
+		if server == "tsserver" then
+			opts.init_options = {
+				preferences = { disableSuggestions = true },
+			}
 		end
 
 		lspconfig[server].setup(opts)
