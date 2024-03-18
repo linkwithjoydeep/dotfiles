@@ -65,6 +65,22 @@ M.config = function()
 	local icons = require("user.ui.icons")
 	luasnip.config.setup({})
 
+	-- Completion for commands
+	-- `:` cmdline setup.
+	cmp.setup.cmdline(":", {
+		mapping = cmp.mapping.preset.cmdline(),
+		sources = cmp.config.sources({
+			{ name = "path" },
+		}, {
+			{
+				name = "cmdline",
+				option = {
+					ignore_cmds = { "Man", "!" },
+				},
+			},
+		}),
+	})
+
 	cmp.setup({
 		snippet = { -- configure how nvim-cmp interacts with snippet engine
 			expand = function(args)
@@ -148,7 +164,7 @@ M.config = function()
 
 				if entry.source.name == "copilot" then
 					vim_item.kind = icons.misc.Octoface
-					vim_item.kind_hl_group = "Cm1pItemKindCopilot"
+					vim_item.kind_hl_group = "CmpItemKindCopilot"
 				end
 
 				return vim_item
