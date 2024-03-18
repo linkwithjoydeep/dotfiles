@@ -10,6 +10,8 @@ spec("user.ui.dressing")
 spec("user.ui.telescope-ui-select")
 spec("user.ui.noice")
 spec("user.ui.lualine")
+spec("user.ui.navic")
+spec("user.ui.breadcrumbs")
 
 -- Utility modules
 spec("user.utils.telescope")
