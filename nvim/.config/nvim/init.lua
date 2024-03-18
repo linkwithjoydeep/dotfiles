@@ -17,6 +17,7 @@ spec("user.ui.breadcrumbs")
 spec("user.utils.telescope")
 spec("user.utils.nvim-tree")
 spec("user.utils.comment")
+spec("user.utils.harpoon")
 
 -- Parsers
 spec("user.parsers.tree-sitter")
