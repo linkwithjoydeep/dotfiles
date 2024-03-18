@@ -20,6 +20,7 @@ spec("user.utils.telescope")
 spec("user.utils.nvim-tree")
 spec("user.utils.comment")
 spec("user.utils.harpoon")
+spec("user.utils.ufo")
 
 -- Parsers
 spec("user.parsers.tree-sitter")

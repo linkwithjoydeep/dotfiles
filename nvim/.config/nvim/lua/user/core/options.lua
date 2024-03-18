@@ -89,6 +89,12 @@ vim.opt.completeopt = { "menuone", "noselect" }
 --  Vim automatically adjusts indentation based on the syntax of the file you're editing.
 vim.opt.smartindent = true
 
+-- Fill chars
+vim.opt.fillchars = vim.opt.fillchars + "eob: "
+vim.opt.fillchars:append({
+	stl = " ",
+})
+
 -- wrap lines always
 vim.opt.wrap = true
 
