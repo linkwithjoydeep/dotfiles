@@ -14,6 +14,7 @@ spec("user.ui.lualine")
 -- Utility modules
 spec("user.utils.telescope")
 spec("user.utils.nvim-tree")
+spec("user.utils.comment")
 
 -- Parsers
 spec("user.parsers.tree-sitter")
@@ -29,6 +30,10 @@ spec("user.lsp.none-ls")
 -- Debug adapters
 spec("user.dap.nvim-dap")
 spec("user.dap.dap-go")
+
+-- Extras
+spec("user.extras.oil")
+spec("user.extras.copilot")
 
 -- Misc
 spec("user.misc.which-key")
