@@ -13,6 +13,7 @@ spec("user.ui.lualine")
 spec("user.ui.navic")
 spec("user.ui.breadcrumbs")
 spec("user.ui.neoscroll")
+spec("user.ui.illuminate")
 
 -- Utility modules
 spec("user.utils.telescope")
