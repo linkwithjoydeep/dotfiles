@@ -37,6 +37,7 @@ spec("user.dap.dap-go")
 -- Extras
 spec("user.extras.oil")
 spec("user.extras.copilot")
+spec("user.extras.tabby")
 
 -- Misc
 spec("user.misc.which-key")
