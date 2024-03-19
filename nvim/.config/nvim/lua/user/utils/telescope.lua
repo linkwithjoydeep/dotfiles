@@ -42,6 +42,7 @@ M.config = function()
 		defaults = {
 			prompt_prefix = icons.ui.Telescope .. " ",
 			selection_caret = icons.ui.Forward .. " ",
+			file_ignore_patterns = { "%.git/", "node_modules/", "%.cache/" },
 			entry_prefix = "   ",
 			initial_mode = "insert",
 			selection_strategy = "reset",

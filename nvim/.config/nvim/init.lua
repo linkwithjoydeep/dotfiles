@@ -28,6 +28,7 @@ spec("user.utils.gitsigns")
 spec("user.utils.autopairs")
 spec("user.utils.project")
 spec("user.utils.toggle-term")
+spec("user.utils.navbuddy")
 
 -- Parsers
 spec("user.parsers.tree-sitter")
@@ -51,6 +52,7 @@ spec("user.testing.neotest")
 spec("user.extras.oil")
 spec("user.extras.copilot")
 spec("user.extras.tabby")
+spec("user.extras.modicator")
 
 -- Misc
 spec("user.misc.which-key")
