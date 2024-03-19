@@ -23,6 +23,7 @@ spec("user.utils.harpoon")
 spec("user.utils.ufo")
 spec("user.utils.eyeliner")
 spec("user.utils.gitsigns")
+spec("user.utils.autopairs")
 
 -- Parsers
 spec("user.parsers.tree-sitter")
