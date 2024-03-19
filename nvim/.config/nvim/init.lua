@@ -21,6 +21,7 @@ spec("user.utils.nvim-tree")
 spec("user.utils.comment")
 spec("user.utils.harpoon")
 spec("user.utils.ufo")
+spec("user.utils.eyeliner")
 
 -- Parsers
 spec("user.parsers.tree-sitter")
@@ -36,6 +37,9 @@ spec("user.lsp.none-ls")
 -- Debug adapters
 spec("user.dap.nvim-dap")
 spec("user.dap.dap-go")
+
+-- Testing
+spec("user.testing.neotest")
 
 -- Extras
 spec("user.extras.oil")
