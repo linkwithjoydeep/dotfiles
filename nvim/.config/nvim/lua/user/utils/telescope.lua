@@ -58,7 +58,6 @@ M.config = function()
 				"--hidden",
 				"--glob=!.git/",
 			},
-
 		},
 		pickers = {
 			live_grep = {
@@ -73,6 +72,7 @@ M.config = function()
 				theme = "dropdown",
 				previewer = false,
 				path_display = fileNameFirst,
+				hidden = true,
 			},
 
 			buffers = {

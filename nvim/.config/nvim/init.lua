@@ -14,6 +14,8 @@ spec("user.ui.navic")
 spec("user.ui.breadcrumbs")
 spec("user.ui.neoscroll")
 spec("user.ui.illuminate")
+spec("user.ui.alpha")
+spec("user.ui.indent-line")
 
 -- Utility modules
 spec("user.utils.telescope")
@@ -24,6 +26,8 @@ spec("user.utils.ufo")
 spec("user.utils.eyeliner")
 spec("user.utils.gitsigns")
 spec("user.utils.autopairs")
+spec("user.utils.project")
+spec("user.utils.toggle-term")
 
 -- Parsers
 spec("user.parsers.tree-sitter")
