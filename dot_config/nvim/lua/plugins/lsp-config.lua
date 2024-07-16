@@ -40,23 +40,23 @@ function M.config()
 			-- jump to the definition of the word under your cursor.
 			--  this is where a variable was first declared, or where a function is defined, etc.
 			--  to jump back, press <c-t>.
-			map("gd", require("telescope.builtin").lsp_definitions, "[g]oto [d]efinition")
+			map("<leader>gd", require("telescope.builtin").lsp_definitions, "[g]oto [d]efinition")
 
 			-- find references for the word under your cursor.
-			map("gr", require("telescope.builtin").lsp_references, "[g]oto [r]eferences")
+			map("<leader>gr", require("telescope.builtin").lsp_references, "[g]oto [r]eferences")
 
 			-- jump to the implementation of the word under your cursor.
 			--  useful when your language has ways of declaring types without an actual implementation.
-			map("gi", require("telescope.builtin").lsp_implementations, "[g]oto [i]mplementation")
+			map("<leader>gi", require("telescope.builtin").lsp_implementations, "[g]oto [i]mplementation")
 
 			-- jump to the type of the word under your cursor.
 			--  useful when you're not sure what type a variable is and you want to see
 			--  the definition of its *type*, not where it was *defined*.
-			map("<leader>d", require("telescope.builtin").lsp_type_definitions, "type [d]efinition")
+			map("<leader>gtd", require("telescope.builtin").lsp_type_definitions, "[g]oto [t]ype [d]efinition")
 
 			-- fuzzy find all the symbols in your current document.
 			--  symbols are things like variables, functions, types, etc.
-			map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[d]ocument [s]ymbols")
+			-- map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[d]ocument [s]ymbols")
 
 			-- fuzzy find all the symbols in your current workspace.
 			--  similar to document symbols, except searches over your entire project.
@@ -76,7 +76,7 @@ function M.config()
 
 			-- warn: this is not goto definition, this is goto declaration.
 			--  for example, in c this would take you to the header.
-			map("gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
+			map("<leader>gD", vim.lsp.buf.declaration, "[g]oto [d]eclaration")
 
 			-- the following autocommand is used to enable inlay hints in your
 			-- code, if the language server you are using supports them
@@ -153,6 +153,8 @@ function M.config()
 		-- linters
 		"luacheck",
 		"golangci-lint",
+		-- daps
+		"delve",
 	}
 
 	-- ensure the servers and tools above are installed

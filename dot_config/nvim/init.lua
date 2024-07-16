@@ -23,6 +23,7 @@ spec("plugins.mini")
 spec("plugins.lualine")
 spec("plugins.harpoon")
 spec("plugins.indent-line")
+spec("plugins.debugging")
 
 -- Extras
 spec("extras.todo-highlighter")
