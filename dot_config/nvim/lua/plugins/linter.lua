@@ -13,6 +13,7 @@ function M.config()
 		lua = { "luacheck" },
 		javascript = { "eslint_d" },
 		typescript = { "eslint_d" },
+		go = { "golangcilint" },
 	}
 
 	-- make luacheck aware of the `vim` global

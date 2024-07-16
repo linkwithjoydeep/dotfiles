@@ -147,10 +147,12 @@ function M.config()
 
 	local tools = {
 		-- formatters
-		"stylua", -- lua formatter
-
+		"stylua",
+		"goimports-reviser",
+		"golines",
 		-- linters
-		"luacheck", -- lua linter
+		"luacheck",
+		"golangci-lint",
 	}
 
 	-- ensure the servers and tools above are installed

@@ -12,7 +12,7 @@ local M = { -- Autoformat
 		},
 	},
 	opts = {
-		notify_on_error = false,
+		notify_on_error = true,
 		format_on_save = function(bufnr)
 			-- Disable "format_on_save lsp_fallback" for languages that don't
 			-- have a well standardized coding style. You can add additional
@@ -24,12 +24,18 @@ local M = { -- Autoformat
 			}
 		end,
 
+		-- override or modify formatter configs
+		formatters = {
+			["goimports-reviser"] = {
+				prepend_args = { "-rm-unused", "-set-alias" },
+			},
+		},
+
 		-- Add the linters under `tools` table in `lsp-config` file for auto installation
 		formatters_by_ft = {
 			lua = { "stylua" },
-			-- Conform can also run multiple formatters sequentially
-			-- python = { "isort", "black" },
-			--
+			-- running multiple formatters sequentially
+			go = { "goimports-reviser", "golines" },
 			-- You can use a sub-list to tell conform to run *until* a formatter
 			-- is found.
 			-- javascript = { { "prettierd", "prettier" } },
