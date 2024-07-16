@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# ls
+
+alias ls='ls --color=auto'
+alias l='ls -l'
+alias ll='ls -lahF'
+alias lls='ls -lahFtr'
+alias la='ls -A'
+alias lc='ls -CF'
+
+# neovim
+
+alias vim='nvim'
+alias vi='nvim'
+alias v='nvim'
+
+# tmux
+alias ta='tmux attach'
+
+# misc
+alias please='sudo'

@@ -1,0 +1,24 @@
+#!/usr/bin/env zsh
+
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+
+source $ZDOTDIR/.opts
+source $ZDOTDIR/.aliases
+source $ZDOTDIR/.antidote/antidote.zsh
+
+# load zsh plugins manager
+antidote load
+
+# starship prompt
+eval "$(starship init zsh)"
+
+# use z to jump directories
+eval "$(zoxide init zsh)"
+
+# fuzzy find files
+source <(fzf --zsh)
+
+# load Node version manager
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

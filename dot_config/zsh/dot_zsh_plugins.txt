@@ -1,0 +1,11 @@
+# completion scripts
+zsh-users/zsh-completions
+
+# automatic suggestions
+zsh-users/zsh-autosuggestions
+
+# Imagine that you’re in the folder ~/a/b/c/d. You can jump directly to a with the command bd a.
+Tarrasch/zsh-bd
+
+# syntax highlighting; this must be the last plugin to load
+zsh-users/zsh-syntax-highlighting
