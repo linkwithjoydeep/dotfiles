@@ -98,6 +98,14 @@ function M.config()
 	--  so, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+	-- FIXME: workaround for https://github.com/neovim/neovim/issues/28058
+	if type(capabilities) == "table" and capabilities.workspace then
+		capabilities.workspace.didChangeWatchedFiles = {
+			dynamicRegistration = false,
+			relativePatternSupport = false,
+		}
+	end
 	--  add any additional override configuration in the following tables. available keys are:
 	--  - cmd (table): override the default command used to start the server
 	--  - filetypes (table): override the default list of associated filetypes for the server
