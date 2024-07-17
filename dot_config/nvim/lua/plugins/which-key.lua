@@ -15,23 +15,30 @@ return {
 	config = function() -- This is the function that runs, AFTER loading
 		require("which-key").setup()
 
-		-- Document existing key chains
-		require("which-key").register({
-			["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-			["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-			["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-			["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-			["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-			["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-			["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
-			["gs"] = { name = "[S]election", _ = "which_key_ignore" },
-			["gss"] = { name = "[S]election [S]tart", _ = "which_key_ignore" },
-			["gsi"] = { name = "[S]election [I]ncrement", _ = "which_key_ignore" },
-			["gsd"] = { name = "[S]election [D]ecrement", _ = "which_key_ignore" },
+		require("which-key").add({
+			{ "<leader>c", group = "[C]ode" },
+			{ "<leader>c_", hidden = true },
+			{ "<leader>d", group = "[D]ocument" },
+			{ "<leader>d_", hidden = true },
+			{ "<leader>h", group = "Git [H]unk" },
+			{ "<leader>h_", hidden = true },
+			{ "<leader>r", group = "[R]ename" },
+			{ "<leader>r_", hidden = true },
+			{ "<leader>s", group = "[S]earch" },
+			{ "<leader>s_", hidden = true },
+			{ "<leader>t", group = "[T]oggle" },
+			{ "<leader>t_", hidden = true },
+			{ "<leader>w", group = "[W]orkspace" },
+			{ "<leader>w_", hidden = true },
+			{ "gs", group = "[S]election" },
+			{ "gs_", hidden = true },
+			{ "gsd", group = "[S]election [D]ecrement" },
+			{ "gsd_", hidden = true },
+			{ "gsi", group = "[S]election [I]ncrement" },
+			{ "gsi_", hidden = true },
+			{ "gss", group = "[S]election [S]tart" },
+			{ "gss_", hidden = true },
+			-- { "<leader>h", desc = "Git [H]unk", mode = "v" },
 		})
-		-- visual mode
-		require("which-key").register({
-			["<leader>h"] = { "Git [H]unk" },
-		}, { mode = "v" })
 	end,
 }
