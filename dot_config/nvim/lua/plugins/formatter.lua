@@ -27,7 +27,7 @@ local M = { -- Autoformat
 		-- override or modify formatter configs
 		formatters = {
 			["goimports-reviser"] = {
-				prepend_args = { "-rm-unused", "-set-alias" },
+				prepend_args = { "-set-alias" },
 			},
 		},
 
@@ -35,7 +35,7 @@ local M = { -- Autoformat
 		formatters_by_ft = {
 			lua = { "stylua" },
 			-- running multiple formatters sequentially
-			go = { "goimports-reviser", "golines" },
+			go = { "gofmt", "goimports-reviser", "golines" },
 			-- You can use a sub-list to tell conform to run *until* a formatter
 			-- is found.
 			-- javascript = { { "prettierd", "prettier" } },
