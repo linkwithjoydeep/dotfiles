@@ -18,5 +18,8 @@ alias v='nvim'
 # tmux
 alias ta='tmux attach'
 
+# better cd
+alias cd='z'
+
 # misc
 alias please='sudo'

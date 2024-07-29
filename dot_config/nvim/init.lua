@@ -7,6 +7,7 @@ require("core.autocmds")
 require("custom.launch")
 
 spec("plugins.catppuccin") -- Color scheme
+-- spec("plugins.aura") -- Color scheme
 spec("plugins.web-devicons")
 spec("plugins.treesitter") -- parsers
 spec("plugins.neo-tree")

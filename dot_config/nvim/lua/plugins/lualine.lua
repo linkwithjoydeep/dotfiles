@@ -9,33 +9,26 @@ function M.config()
 
 -- stylua: ignore
 local colors = {
-  blue   = '#80a0ff',
-  cyan   = '#79dac8',
-  black  = '#080808',
-  white  = '#c6c6c6',
-  red    = '#ff5189',
-  violet = '#d183e8',
-  grey   = '#303030',
+  lavender  = '#b4befe',
+  crust   = '#11111b',
 }
-
 	local bubbles_theme = {
 		normal = {
-			a = { fg = colors.black, bg = colors.violet },
-			b = { fg = colors.white, bg = colors.grey },
-			c = { fg = colors.white },
+			a = { fg = colors.lavender, bg = colors.crust },
+			b = { fg = colors.lavender, bg = colors.crust },
+			c = { fg = colors.lavender },
 		},
 
-		insert = { a = { fg = colors.black, bg = colors.blue } },
-		visual = { a = { fg = colors.black, bg = colors.cyan } },
-		replace = { a = { fg = colors.black, bg = colors.red } },
+		insert = { a = { fg = colors.lavender, bg = colors.crust } },
+		visual = { a = { fg = colors.lavender, bg = colors.crust } },
+		replace = { a = { fg = colors.lavender, bg = colors.crust } },
 
 		inactive = {
-			a = { fg = colors.white, bg = colors.black },
-			b = { fg = colors.white, bg = colors.black },
-			c = { fg = colors.white },
+			a = { fg = colors.lavender, bg = colors.lavender },
+			b = { fg = colors.lavender, bg = colors.lavender },
+			c = { fg = colors.lavender },
 		},
 	}
-
 	require("lualine").setup({
 		options = {
 			theme = bubbles_theme,
@@ -44,7 +37,13 @@ local colors = {
 		},
 		sections = {
 			lualine_a = { { "mode", separator = { left = "" }, right_padding = 2 } },
-			lualine_b = { "filename", "branch" },
+			lualine_b = {
+				{
+					"filename",
+					path = 1,
+				},
+				"branch",
+			},
 			lualine_c = {
 				"%=" --[[ add your center compoentnts here in place of this comment ]],
 			},
