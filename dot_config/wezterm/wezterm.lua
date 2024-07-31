@@ -34,7 +34,7 @@ config.animation_fps = 60
 config.scrollback_lines = 50000
 
 -- utils
-config.term = "wezterm"
+config.term = "xterm-256color"
 
 config.audible_bell = "Disabled"
 
