@@ -1,104 +1,63 @@
-local M = {
-	-- Highlight, edit, and navigate code
-	"nvim-treesitter/nvim-treesitter",
-	dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
-	event = { "BufReadPost", "BufNewFile" },
-	build = ":TSUpdate",
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "astro",
+        "bash",
+        "c",
+        "cmake",
+        "cpp",
+        "css",
+        "diff",
+        "dockerfile",
+        "gitignore",
+        "go",
+        "gomod",
+        "gosum",
+        "gowork",
+        "html",
+        "http",
+        "javascript",
+        "jsdoc",
+        "json",
+        "json5",
+        "jsonc",
+        "lua",
+        "luadoc",
+        "luap",
+        "markdown",
+        "markdown_inline",
+        "prisma",
+        "python",
+        "query",
+        "regex",
+        "sql",
+        "toml",
+        "tsx",
+        "typescript",
+        "vim",
+        "vimdoc",
+        "yaml",
+      },
+      config = function(_, opts)
+        require("nvim-treesitter.configs").setup(opts)
+
+        -- MDX
+        vim.filetype.add({
+          extension = {
+            mdx = "mdx",
+          },
+        })
+        vim.treesitter.language.register("markdown", "mdx")
+      end,
+    },
+  },
+  {
+    "nvim-treesitter/playground",
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    enabled = false,
+  },
 }
-
-function M.config()
-	-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
-	-- Prefer git instead of curl in order to improve connectivity in some environments
-	require("nvim-treesitter.install").prefer_git = true
-	---@diagnostic disable-next-line: missing-fields
-	require("nvim-treesitter.configs").setup({
-		ensure_installed = {
-			"bash",
-			"c",
-			"query",
-			"diff",
-			"html",
-			"lua",
-			"luadoc",
-			"markdown",
-			"markdown_inline",
-			"vim",
-			"vimdoc",
-			"javascript",
-			"go",
-			"json",
-			"yaml",
-			"make",
-		},
-		-- Auto install languages that are not installed
-		auto_install = true,
-		highlight = {
-			enable = true,
-			-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-			--  If you are experiencing weird indenting issues, add the language to
-			--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-			additional_vim_regex_highlighting = { "ruby" },
-		},
-		indent = { enable = true, disable = { "ruby" } },
-		incremental_selection = {
-			enable = true,
-			keymaps = {
-				init_selection = "gss",
-				node_incremental = "gsi",
-				node_decremental = "gsd",
-			},
-		},
-		textobjects = {
-			select = {
-				enable = true,
-
-				-- Automatically jump forward to textobj, similar to targets.vim
-				lookahead = true,
-
-				keymaps = {
-					-- You can use the capture groups defined in textobjects.scm
-					["af"] = { quesry = "@function.outer", desc = "Select around function" }, -- around function
-					["if"] = { query = "@function.inner", desc = "Select inside function" }, -- inside function
-					["ac"] = { query = "@class.outer", desc = "Select around class" }, -- around class
-					-- You can optionally set descriptions to the mappings (used in the desc parameter of
-					-- nvim_buf_set_keymap) which plugins like which-key display
-					["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" }, -- inside class
-					-- You can also use captures from other query groups like `locals.scm`
-					["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" }, -- around scope
-				},
-				-- You can choose the select mode (default is charwise 'v')
-				--
-				-- Can also be a function which gets passed a table with the keys
-				-- * query_string: eg '@function.inner'
-				-- * method: eg 'v' or 'o'
-				-- and should return the mode ('v', 'V', or '<c-v>') or a table
-				-- mapping query_strings to modes.
-				selection_modes = {
-					["@parameter.outer"] = "v", -- charwise
-					["@function.outer"] = "V", -- linewise
-					["@class.outer"] = "<c-v>", -- blockwise
-				},
-				-- If you set this to `true` (default is `false`) then any textobject is
-				-- extended to include preceding or succeeding whitespace. Succeeding
-				-- whitespace has priority in order to act similarly to eg the built-in
-				-- `ap`.
-				--
-				-- Can also be a function which gets passed a table with the keys
-				-- * query_string: eg '@function.inner'
-				-- * selection_mode: eg 'v'
-				-- and should return true or false
-				include_surrounding_whitespace = true,
-			},
-		},
-	})
-
-	-- There are additional nvim-treesitter modules that you can use to interact
-	-- with nvim-treesitter. You should go explore a few and see what interests you:
-	--
-	--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-	--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-	--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-end
-
-return M
