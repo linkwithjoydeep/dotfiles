@@ -29,3 +29,9 @@ source <(fzf --zsh)
 # load Node version manager
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Created by `pipx` on 2025-06-03 15:01:36
+export PATH="$PATH:/Users/joydeepbhattacharya/.local/bin"
+
+# bun completions
+[ -s "/Users/joydeepbhattacharya/.bun/_bun" ] && source "/Users/joydeepbhattacharya/.bun/_bun"
