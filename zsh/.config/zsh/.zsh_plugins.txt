@@ -1,0 +1,8 @@
+# completion scripts
+zsh-users/zsh-completions
+
+# automatic suggestions
+zsh-users/zsh-autosuggestions
+
+# syntax highlighting; this must be the last plugin to load
+zsh-users/zsh-syntax-highlighting
