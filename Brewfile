@@ -11,3 +11,4 @@ brew "fd"
 brew "wget"
 
 cask "ghostty"
+cask "1password-cli"
