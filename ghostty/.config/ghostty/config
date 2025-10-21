@@ -1,7 +1,7 @@
 font-family = DankMono Nerd Font
 font-size = 18
 
-theme = tokyonight_night
+theme = TokyoNight Night
 
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
