@@ -64,13 +64,13 @@ brew bundle
 * **All configs:**
 
   ```bash
-  stow --target="${HOME}/.config" */
+  stow --target="${HOME}" */
   ```
 
 * **Single config (e.g., zsh):**
 
   ```bash
-  stow --target="${HOME}/.config" zsh
+  stow --target="${HOME}" zsh
   ```
 
 ---

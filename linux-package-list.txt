@@ -1,0 +1,9 @@
+stow
+zoxide
+fzf
+neovim
+tmux
+lazygit
+ripgrep
+fd
+
