@@ -36,3 +36,11 @@ source $ZDOTDIR/history-search.zsh
 [[ -f "$XDG_CONFIG_HOME/fzf/init.zsh" ]] && source "$XDG_CONFIG_HOME/fzf/init.zsh"
 [[ -f "$XDG_CONFIG_HOME/tmux/init.zsh" ]] && source "$XDG_CONFIG_HOME/tmux/init.zsh"
 [[ -f "$XDG_CONFIG_HOME/nvm/init.zsh" ]] && source "$XDG_CONFIG_HOME/nvm/init.zsh"
+
+# pnpm
+export PNPM_HOME="/Users/joy/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
