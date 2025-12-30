@@ -6,3 +6,4 @@ export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 # Set $ZDOTDIR here to be able to store your other Zsh dotfiles
 # outside of $HOME.
 export ZDOTDIR=$XDG_CONFIG_HOME/zsh
+. "$HOME/.cargo/env"
