@@ -3,3 +3,7 @@
 # file.
 export SHELL_SESSION_DIR=$XDG_STATE_HOME/zsh/sessions
 export SHELL_SESSION_FILE=$SHELL_SESSION_DIR/$TERM_SESSION_ID
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
