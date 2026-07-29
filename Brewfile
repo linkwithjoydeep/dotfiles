@@ -1,14 +1,20 @@
 brew "stow"
+brew "neovim"
+brew "mise"
+
 brew "starship"
 brew "zoxide"
 brew "fzf"
-
-brew "neovim"
-brew "tmux"
+brew "eza"
+brew "bat"
+brew "fd"
 brew "lazygit"
 brew "ripgrep"
-brew "fd"
+
+brew "zellij"
 brew "wget"
 
 cask "ghostty"
 cask "1password-cli"
+cask "orbstack"
+cask "jumpcut"

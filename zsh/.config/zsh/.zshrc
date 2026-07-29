@@ -1,46 +1,93 @@
 
-export EDITOR=nvim VISUAL=nvim
+# =========================================================
+# History
+# =========================================================
 
-mkdir -p "$XDG_STATE_HOME"
-mkdir -p "$XDG_DATA_HOME"
-mkdir -p "$XDG_CACHE_HOME"
+HISTFILE="$XDG_STATE_HOME/zsh/history"
+HISTSIZE=100000
+SAVEHIST=100000
 
-# HISTFILE is used by interactive shells only. Plus,
-# non-interactive shells & external commands don't need this var.
-# Hence, we put it in your .zshrc file, since that's sourced for
-# each interactive shell, and don't export it.
-mkdir -p "$XDG_STATE_HOME/zsh"
-HISTFILE=$XDG_STATE_HOME/zsh/.history
-HISTSIZE=10000
-SAVEHIST=10000
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
 
+# =========================================================
+# Shell behaviour
+# =========================================================
 
+setopt AUTOCD
+setopt NOBEEP
+setopt NUMERIC_GLOB_SORT  # sort file10 after file9, not after file1
 
-# Load Core configs
-source $ZDOTDIR/opts.zsh
-source $ZDOTDIR/aliases.zsh
+# Initialize zoxide
+eval "$(zoxide init zsh)"
 
-# Load shell features
-source $ZDOTDIR/completion.zsh
-source $ZDOTDIR/history-search.zsh
+# =========================================================
+# Completion
+# =========================================================
 
-# Load system tools
-[[ -f "$XDG_CONFIG_HOME/homebrew/init.zsh" ]] && source "$XDG_CONFIG_HOME/homebrew/init.zsh"
+# Load completion system
+autoload -Uz compinit
 
-# Load plugin manager and plugins
-[[ -f "$ZDOTDIR/antidote-init.zsh" ]] && source "$ZDOTDIR/antidote-init.zsh"
+# Initialize completion with cached metadata file
+compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 
-# Load external tools
-[[ -f "$XDG_CONFIG_HOME/starship/init.zsh" ]] && source "$XDG_CONFIG_HOME/starship/init.zsh"
-[[ -f "$XDG_CONFIG_HOME/zoxide/init.zsh" ]] && source "$XDG_CONFIG_HOME/zoxide/init.zsh"
-[[ -f "$XDG_CONFIG_HOME/fzf/init.zsh" ]] && source "$XDG_CONFIG_HOME/fzf/init.zsh"
-[[ -f "$XDG_CONFIG_HOME/tmux/init.zsh" ]] && source "$XDG_CONFIG_HOME/tmux/init.zsh"
-[[ -f "$XDG_CONFIG_HOME/nvm/init.zsh" ]] && source "$XDG_CONFIG_HOME/nvm/init.zsh"
+# Enable interactive completion menu selection
+zstyle ':completion:*' menu select
 
-# pnpm
-export PNPM_HOME="/Users/joy/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+# Make completion case-insensitive
+# Example: "doc" can complete to "Documents"
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # lowercase input matches upper and lower
+
+# =========================================================
+# Fuzzy finder
+# =========================================================
+
+# macOS / Homebrew (Apple Silicon)
+if [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]]; then
+  source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+  source /opt/homebrew/opt/fzf/shell/completion.zsh
+fi
+
+# macOS / Homebrew (Intel)
+if [[ -f /usr/local/opt/fzf/shell/key-bindings.zsh ]]; then
+  source /usr/local/opt/fzf/shell/key-bindings.zsh
+  source /usr/local/opt/fzf/shell/completion.zsh
+fi
+
+# Arch
+if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
+  source /usr/share/fzf/key-bindings.zsh
+  source /usr/share/fzf/completion.zsh
+fi
+
+# Ubuntu
+if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
+
+# =========================================================
+# Modular Config Files
+# =========================================================
+
+# fzf configuration
+source "$ZDOTDIR/fzf.zsh"
+
+# Aliases
+source "$ZDOTDIR/aliases.zsh"
+
+# Custom keybindings
+source "$ZDOTDIR/bindings.zsh"
+
+# Plugins and plugin manager
+source "$ZDOTDIR/plugins.zsh"
+
+# Prompt/theme
+source "$ZDOTDIR/prompt.zsh"
+
+# Dev tools
+source "$ZDOTDIR/devtools.zsh"
