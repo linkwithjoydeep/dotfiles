@@ -33,5 +33,13 @@ item = "personal-auth"
 vault = "Personal"
 
 [[ssh-keys]]
+item = "personal-signing"
+vault = "Personal"
+
+[[ssh-keys]]
 item = "work-auth"
+vault = "Work"
+
+[[ssh-keys]]
+item = "work-signing"
 vault = "Work"

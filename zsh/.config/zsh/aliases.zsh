@@ -58,4 +58,32 @@ ssh() {
     TERM=xterm-256color command ssh "$@"
 }
 
+# Configure git commit/tag signing for the *current* repo using a 1Password item
+_git-set-signing() {
+  local item="$1" email key
 
+  if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+    echo "Not inside a git repo." >&2
+    return 1
+  fi
+
+  email=$(op item get "$item" --field "email" --reveal 2>/dev/null)
+  key=$(op item get "$item" --field "public key" --reveal 2>/dev/null)
+
+  if [[ -z "$email" || -z "$key" ]]; then
+    echo "Couldn't read email/public key from 1Password item '$item'." >&2
+    return 1
+  fi
+
+  git config user.email "$email"
+  git config user.signingkey "$key"
+  git config gpg.format ssh
+  git config gpg.ssh.program "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+  git config commit.gpgsign true
+  git config tag.gpgsign true
+
+  echo "✅ $item → $email  ($(git rev-parse --show-toplevel))"
+}
+
+git-sign-work() { _git-set-signing "work-signing" }
+git-sign-personal() { _git-set-signing "personal-signing" }
