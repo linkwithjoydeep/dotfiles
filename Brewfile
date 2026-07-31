@@ -10,9 +10,10 @@ brew "bat"
 brew "fd"
 brew "lazygit"
 brew "ripgrep"
+brew "wget"
 
 brew "zellij"
-brew "wget"
+brew "herdr"
 
 cask "ghostty"
 cask "1password-cli"
