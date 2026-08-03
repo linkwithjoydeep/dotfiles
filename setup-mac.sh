@@ -50,6 +50,51 @@ detect_and_use_brew() {
     fi
 }
 
+# Function to set up XDG state/cache dirs zsh relies on before it ever starts
+setup_zsh_dirs() {
+    echo "[INFO] Creating XDG cache/state directories for zsh..."
+    mkdir -p "$HOME/.cache/zsh"
+    mkdir -p "$HOME/.local/state/zsh"
+    mkdir -p "$HOME/.config/zsh"
+}
+
+# Function to point the system-wide zshenv at our XDG-based ZDOTDIR
+setup_zdotdir() {
+    local zshenv="/etc/zshenv"
+    local marker="# >>> dotfiles ZDOTDIR"
+    local block="$marker
+if [[ -z \"\$XDG_CONFIG_HOME\" ]]
+then
+    export XDG_CONFIG_HOME=\"\$HOME/.config\"
+fi
+
+if [[ -d \"\$XDG_CONFIG_HOME/zsh\" ]]
+then
+    export ZDOTDIR=\"\$XDG_CONFIG_HOME/zsh\"
+fi
+# <<< dotfiles ZDOTDIR"
+
+    if [ -f "$zshenv" ] && grep -qF "$marker" "$zshenv"; then
+        echo "[INFO] ZDOTDIR redirect already present in $zshenv"
+        return 0
+    fi
+
+    echo "[INFO] Adding ZDOTDIR redirect to $zshenv (requires sudo)..."
+    printf '%s\n' "$block" | sudo tee -a "$zshenv" >/dev/null
+    echo "[SUCCESS] $zshenv updated. Restart your terminal for this to take effect."
+}
+
+# Function to install tool versions pinned via mise
+setup_mise() {
+    if ! command -v mise >/dev/null 2>&1; then
+        echo "[WARNING] mise not found on PATH, skipping 'mise install'"
+        return 0
+    fi
+
+    echo "[INFO] Installing tool versions with mise..."
+    mise install
+}
+
 # Function to run stow
 run_stow() {
     echo "[INFO] Setting up dotfiles with stow..."
@@ -85,6 +130,10 @@ run_stow() {
 
 # Main execution
 main() {
+    echo "[INFO] Setting up zsh XDG directories..."
+    setup_zsh_dirs
+    setup_zdotdir
+
     echo "[INFO] Setting up Homebrew and installing packages..."
 
     # Try to detect existing brew installation
@@ -122,12 +171,20 @@ main() {
         exit 1
     fi
 
-    echo "[TIP] You may need to restart your terminal or run:"
+    # Install pinned language/tool versions now that mise's config is stowed
+    setup_mise
+
+    echo "[TIP] Restart your terminal (required for the ZDOTDIR change to take effect)."
+    echo "[TIP] You may also need to run:"
     if [[ $(uname -m) == "arm64" ]]; then
         echo "    eval \"\$(/opt/homebrew/bin/brew shellenv)\""
     else
         echo "    eval \"\$(/usr/local/bin/brew shellenv)\""
     fi
+    echo "[TIP] Enable the 1Password SSH agent (1Password app > Settings > Developer > 'Use the SSH agent'),"
+    echo "      then run 'op signin' to authenticate the CLI."
+    echo "[TIP] Inside a repo, run 'git-sign-work' or 'git-sign-personal' to configure commit signing via 1Password."
+    echo "[TIP] Start tmux and press 'Ctrl+b, Shift+I' to install tmux plugins via TPM."
 }
 
 # Run main function

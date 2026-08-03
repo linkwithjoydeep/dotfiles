@@ -14,7 +14,7 @@ brew "wget"
 
 brew "tmux"
 
-brew "magemagick"
+brew "imagemagick"
 brew "ghostscript"
 brew "tectonic"
 
