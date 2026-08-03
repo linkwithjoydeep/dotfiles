@@ -6,4 +6,6 @@ tmux
 lazygit
 ripgrep
 fd
+bat
+eza
 

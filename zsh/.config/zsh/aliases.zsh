@@ -60,10 +60,21 @@ ssh() {
 
 # Configure git commit/tag signing for the *current* repo using a 1Password item
 _git-set-signing() {
-  local item="$1" email key
+  local item="$1" email key op_ssh_sign
 
   if ! git rev-parse --is-inside-work-tree &>/dev/null; then
     echo "Not inside a git repo." >&2
+    return 1
+  fi
+
+  if [[ -x "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" ]]; then
+    op_ssh_sign="/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+  elif [[ -x "/opt/1Password/op-ssh-sign" ]]; then
+    op_ssh_sign="/opt/1Password/op-ssh-sign"
+  elif command -v op-ssh-sign >/dev/null 2>&1; then
+    op_ssh_sign="$(command -v op-ssh-sign)"
+  else
+    echo "Couldn't find the op-ssh-sign binary (checked macOS app bundle, /opt/1Password, and PATH)." >&2
     return 1
   fi
 
@@ -78,7 +89,7 @@ _git-set-signing() {
   git config user.email "$email"
   git config user.signingkey "$key"
   git config gpg.format ssh
-  git config gpg.ssh.program "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+  git config gpg.ssh.program "$op_ssh_sign"
   git config commit.gpgsign true
   git config tag.gpgsign true
 
