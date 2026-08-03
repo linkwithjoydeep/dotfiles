@@ -12,8 +12,7 @@ brew "lazygit"
 brew "ripgrep"
 brew "wget"
 
-brew "zellij"
-brew "herdr"
+brew "tmux"
 
 cask "ghostty"
 cask "1password-cli"

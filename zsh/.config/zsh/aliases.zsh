@@ -87,3 +87,22 @@ _git-set-signing() {
 
 git-sign-work() { _git-set-signing "work-signing" }
 git-sign-personal() { _git-set-signing "personal-signing" }
+
+# TMUX
+# Basic session management
+alias tm='tmux'
+alias tma='tmux attach'                    # attach to last/default session
+alias tmat='tmux attach -t'                # attach to named session
+alias tmn='tmux new -s'                    # new named session
+alias tml='tmux ls'                        # list sessions
+alias tmk='tmux kill-session -t'           # kill named session
+alias tmka='tmux kill-server'              # nuke everything
+
+# Rename / detach
+alias tmr='tmux rename-session'
+alias tmd='tmux detach'
+
+# Smart attach-or-create
+tms() {
+  tmux new-session -A -s "${1:-main}"
+}
