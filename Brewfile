@@ -14,6 +14,10 @@ brew "wget"
 
 brew "tmux"
 
+brew "magemagick"
+brew "ghostscript"
+brew "tectonic"
+
 cask "ghostty"
 cask "1password-cli"
 cask "orbstack"

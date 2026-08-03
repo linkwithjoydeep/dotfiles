@@ -1,3 +1,11 @@
 [tools]
+ast-grep = "0.45.0"
 go = "1.24.3"
+gradle = "9.6.1"
+java = "temurin-25"
+lua = "5.1"
 node = "26"
+"npm:@mermaid-js/mermaid-cli" = "11.16.0"
+"npm:prettier" = "latest"
+rust = "1.97.1"
+rust-analyzer = "latest"
