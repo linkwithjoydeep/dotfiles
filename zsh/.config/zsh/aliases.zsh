@@ -86,6 +86,7 @@ _git-set-signing() {
     return 1
   fi
 
+  git config user.name "Joydeep Bhattacharya"
   git config user.email "$email"
   git config user.signingkey "$key"
   git config gpg.format ssh
