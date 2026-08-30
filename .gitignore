@@ -7,3 +7,5 @@ zsh/.config/zsh/plugins
 tmux/.config/tmux/plugins
 
 .DS_Store
+
+.scratchpad/
