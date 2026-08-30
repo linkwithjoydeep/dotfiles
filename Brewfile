@@ -1,6 +1,7 @@
 brew "stow"
 brew "neovim"
 brew "mise"
+brew "gh"
 
 brew "starship"
 brew "zoxide"
