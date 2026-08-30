@@ -133,20 +133,3 @@ Every skill above works inside one shared topic folder, so a `/shape` session's 
 ## What these never touch
 
 `CLAUDE.md`, `AGENTS.md`, `CONTEXT.md`, `CONTEXT-MAP.md`, `docs/adr/`. If they exist, skills read them as ground truth to interview and review against. If they don't, nothing changes. Promoting anything out of `.scratchpad/` into real project docs is always a separate, explicit request — never a side effect of running one of these skills.
-
-## Provenance
-
-This set is a fork of [mattpocock/skills](https://github.com/mattpocock/skills), reworked to be tracker-free and drop-in portable: no issue tracker, no `/setup-matt-pocock-skills` step, no assumption the project has any docs infrastructure at all. A few renames reflect that:
-
-| Original | Here | Why |
-|---|---|---|
-| `grill-with-docs` | `shape` | self-contained; no longer delegates to two other skills. Named for the goal (a shaped change) rather than the method. "grill" survives as a trigger phrase. |
-| `to-tickets` | `to-tasks` | local task files, not tracker tickets |
-| `implement` | `build` | `implement` collided with generic phrasing |
-| `code-review` | `review-changes` | says what it reviews: a diff since a fixed point |
-| `prototype` | `spike` | shorter, and distinguishes it from a product prototype |
-| `codebase-design` | `module-design` | it's about modules and seams, not the whole codebase |
-
-`to-spec`, `wayfinder`, `research`, and `tdd` kept their original names.
-
-Other changes worth knowing if you've used the originals: `tdd` here is fully self-contained (the original split testing and mocking guidance across two files); `spike` inlines the logic/UI branches that were separate files in `prototype`; `module-design` inlines a condensed "design it twice" and drops the original's separate deepening doc; `triage` wasn't ported at all, since it's inherently tracker-shaped.
