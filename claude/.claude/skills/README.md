@@ -1,6 +1,6 @@
 # Personal skill set
 
-A portable, scratchpad-based fork of the [mattpocock/skills](https://github.com/mattpocock/skills) flow and shaping skills, inspired by that project's shape → spec → tasks → build → review chain. Everything here writes to `.scratchpad/` instead of an issue tracker: gitignored, personal, and requiring no project setup — drop any of these files into `.claude/skills/` in any repo and it works the same way.
+A portable, scratchpad-based setup of the [mattpocock/skills](https://github.com/mattpocock/skills) flow and shaping skills, inspired by that project's shape → spec → tasks → build → review chain. Everything here writes to `.scratchpad/` instead of an issue tracker: gitignored, personal, and requiring no project setup — drop any of these files into `.claude/skills/` in any repo and it works the same way.
 
 ## The chain
 
