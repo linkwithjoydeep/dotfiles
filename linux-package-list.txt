@@ -8,4 +8,6 @@ ripgrep
 fd
 bat
 eza
-
+wget
+imagemagick
+ghostscript

@@ -11,11 +11,10 @@ setup_zsh_dirs() {
 }
 
 # Function to point the system-wide zshenv at our XDG-based ZDOTDIR
-# NOTE: Fedora/RHEL's zsh package uses /etc/zshenv (same as upstream zsh).
-# Debian/Ubuntu's zsh package patches this to /etc/zsh/zshenv instead --
-# adjust the path below if you're adapting this for a Debian-based distro.
+# NOTE: Arch's zsh package is built with --enable-etcdir=/etc/zsh, so the
+# global zshenv is /etc/zsh/zshenv (not upstream's default /etc/zshenv).
 setup_zdotdir() {
-    local zshenv="/etc/zshenv"
+    local zshenv="/etc/zsh/zshenv"
     local marker="# >>> dotfiles ZDOTDIR"
     local block="$marker
 if [[ -z \"\$XDG_CONFIG_HOME\" ]]
@@ -39,7 +38,7 @@ fi
     echo "[SUCCESS] $zshenv updated. Restart your terminal for this to take effect."
 }
 
-# Function to install packages via dnf
+# Function to install packages via pacman
 install_packages() {
     if [ ! -f "linux-package-list.txt" ]; then
         echo "[ERROR] linux-package-list.txt not found in current directory"
@@ -47,18 +46,15 @@ install_packages() {
         exit 1
     fi
 
-    echo "[INFO] Enabling lazygit copr..."
-    sudo dnf copr enable -y dejan/lazygit
-
-    local fedora_extra=()
-    if [ -f "fedora-package-list.txt" ]; then
-        fedora_extra=($(cat fedora-package-list.txt))
+    local arch_extra=()
+    if [ -f "arch-package-list.txt" ]; then
+        arch_extra=($(cat arch-package-list.txt))
     fi
 
-    echo "[INFO] Installing packages from linux-package-list.txt + fedora-package-list.txt..."
-    sudo dnf install -y $(cat linux-package-list.txt) "${fedora_extra[@]}"
-
-    echo "[TIP] tectonic isn't packaged in Fedora's official repos; install manually via conda or a prebuilt binary: https://tectonic-typesetting.github.io/book/latest/installation/"
+    # Full system upgrade in the same transaction as the install, per Arch's
+    # partial-upgrades-are-unsupported guidance.
+    echo "[INFO] Syncing repos, upgrading system, and installing packages from linux-package-list.txt + arch-package-list.txt..."
+    sudo pacman -Syu --needed --noconfirm $(cat linux-package-list.txt) "${arch_extra[@]}"
 }
 
 # Function to install starship if missing
@@ -81,27 +77,6 @@ install_mise() {
 
     echo "[INFO] Installing mise..."
     curl -fsSL https://mise.run | sh
-}
-
-# Function to install JetBrainsMono Nerd Font if missing.
-# DankMono Nerd Font (used in the ghostty/kitty configs) is a paid font that
-# has to be installed by hand; JetBrainsMono Nerd Font is the free fallback
-# those configs use when DankMono isn't present, so it's installed here
-# unconditionally. Not packaged in Fedora's official repos, so download it
-# the same way starship/mise are handled above.
-install_nerd_font() {
-    if fc-list | grep -qi "JetBrainsMono Nerd Font"; then
-        echo "[INFO] JetBrainsMono Nerd Font already installed"
-        return 0
-    fi
-
-    echo "[INFO] Installing JetBrainsMono Nerd Font..."
-    local font_dir="$HOME/.local/share/fonts/JetBrainsMonoNerdFont"
-    mkdir -p "$font_dir"
-    curl -fsSL -o /tmp/JetBrainsMono.zip https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
-    unzip -oq /tmp/JetBrainsMono.zip -d "$font_dir"
-    rm -f /tmp/JetBrainsMono.zip
-    fc-cache -f "$font_dir" >/dev/null
 }
 
 # Function to run stow
@@ -159,7 +134,6 @@ main() {
     install_packages
     install_starship
     install_mise
-    install_nerd_font
 
     # Run stow after successful package installation
     if run_stow; then

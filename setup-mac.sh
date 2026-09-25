@@ -96,6 +96,10 @@ setup_mise() {
 }
 
 # Function to run stow
+# --no-folding: keep e.g. ~/.config/1Password a real directory (only tracked
+# files inside it become symlinks) instead of stow symlinking the whole
+# directory. Otherwise anything the app later writes there (1Password's
+# sqlite/settings files) would physically land inside this git repo.
 run_stow() {
     echo "[INFO] Setting up dotfiles with stow..."
 
@@ -117,13 +121,13 @@ run_stow() {
     echo "[INFO] Found directories to stow: ${stow_dirs[*]}"
 
     # Run stow for each directory
-    echo "[INFO] Running: stow --target=${HOME} */"
-    if stow --target="${HOME}" */; then
+    echo "[INFO] Running: stow --no-folding --target=${HOME} */"
+    if stow --no-folding --target="${HOME}" */; then
         echo "[SUCCESS] Dotfiles symlinked successfully!"
     else
         echo "[ERROR] Failed to stow dotfiles. Check for conflicts."
-        echo "[TIP] Use 'stow --target=${HOME} --verbose */' to see detailed output"
-        echo "[TIP] Use 'stow --target=${HOME} --adopt */' to resolve conflicts by adopting existing files"
+        echo "[TIP] Use 'stow --no-folding --target=${HOME} --verbose */' to see detailed output"
+        echo "[TIP] Use 'stow --no-folding --target=${HOME} --adopt */' to resolve conflicts by adopting existing files"
         return 1
     fi
 }
@@ -185,6 +189,9 @@ main() {
     echo "      then run 'op signin' to authenticate the CLI."
     echo "[TIP] Inside a repo, run 'git-sign-work' or 'git-sign-personal' to configure commit signing via 1Password."
     echo "[TIP] Start tmux and press 'Ctrl+b, Shift+I' to install tmux plugins via TPM."
+    echo "[TIP] If you've bought DankMono and installed its Nerd Font patch on this machine,"
+    echo "      create ~/.config/kitty/font-local.conf with 'font_family DankMono Nerd Font'"
+    echo "      to prefer it over the JetBrainsMono fallback (ghostty picks it up automatically)."
 }
 
 # Run main function

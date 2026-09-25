@@ -20,6 +20,7 @@ brew "ghostscript"
 brew "tectonic"
 
 cask "ghostty"
+cask "font-jetbrains-mono-nerd-font"
 cask "1password-cli"
 cask "orbstack"
 cask "jumpcut"

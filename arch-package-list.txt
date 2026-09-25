@@ -1,0 +1,3 @@
+github-cli
+tectonic
+ttf-jetbrains-mono-nerd
