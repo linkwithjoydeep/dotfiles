@@ -6,6 +6,11 @@ Everything in this chapter runs on the **booted Arch ISO**.
 
 **[AI]** The ISO default is already `us` / `default8x16`. Nothing to do.
 
+```bash
+# double the current font on HiDPI displays
+setfont -d
+```
+
 ## 1.2 Confirm UEFI boot
 
 This must print `64`:
