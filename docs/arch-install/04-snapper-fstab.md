@@ -63,16 +63,18 @@ Day-to-day snapper commands are in [8.8](08-post-install.md#88-snapper-usage).
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-**[CUSTOM]** Remove the `subvolid=` options genfstab adds, so every subvolume is mounted by name (`subvol=`) only:
+Check it:
 ```bash
-sed -i -E 's/subvolid=[0-9]+,//' /mnt/etc/fstab
 cat /mnt/etc/fstab
 ```
-> Why: a rollback ([9.2](09-recovery-rollback.md#92-full-system-rollback)) replaces `@` with a new snapshot, which gets a **new** subvolume ID. If fstab still pinned the old ID, the restored system could fail to mount `/`. Mounting by name (`subvol=/@`) keeps working after any rollback. The Arch Wiki's Btrfs page recommends this.
-
-Check:
 - 5 btrfs lines (`/`, `/home`, `/var/log`, `/var/cache/pacman/pkg`, `/.snapshots`) + 1 vfat line for `/efi`.
-- Each btrfs line has `subvol=/@…` and **no** `subvolid=`.
+- Each btrfs line mounts by name (`subvol=/@…`) with **no** `subvolid=`. Current genfstab no longer writes `subvolid=`.
+
+> [NOTE] If your fstab **does** contain `subvolid=` (older genfstab), remove it:
+> ```bash
+> sed -i -E 's/subvolid=[0-9]+,//' /mnt/etc/fstab
+> ```
+> Why: a rollback ([9.2](09-recovery-rollback.md#92-full-system-rollback)) replaces `@` with a new snapshot, which gets a **new** subvolume ID. If fstab pinned the old ID, the restored system could fail to mount `/`. Mounting by name keeps working after any rollback.
 
 ---
 

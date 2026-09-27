@@ -55,11 +55,10 @@ No NVIDIA GPU? Skip this command and install your GPU's Mesa/Vulkan drivers inst
 
 ### Network
 
-**[AI]** NetworkManager + wpa_supplicant + the applet (added for desktop profiles).
+**[AI]** NetworkManager + wpa_supplicant. **[CUSTOM]** without archinstall's `network-manager-applet` (a GTK tray icon; there is no tray without a bar). Use `nmtui` / `nmcli` instead ([5.4](05-system-basics.md#54-network)).
 ```bash
-pacstrap /mnt networkmanager wpa_supplicant network-manager-applet
+pacstrap /mnt networkmanager wpa_supplicant
 ```
-`network-manager-applet` is optional on Hyprland. See [how it works and how to remove it](appendix-replacing-components.md#network-manager-applet).
 
 ### Common desktop tools
 
@@ -79,15 +78,16 @@ pacstrap /mnt nano vim vi openssh htop wget smartmontools xdg-utils
 
 ### Hyprland
 
-**[AI]** **[CUSTOM]** `hyprpolkitagent` instead of `polkit-kde-agent`, `nautilus` instead of `dolphin`, `hyprlauncher` instead of `wofi`.
+**[AI]** **[CUSTOM]** `xdg-desktop-portal-gtk` added, `hyprpolkitagent` instead of `polkit-kde-agent`, `nautilus` instead of `dolphin`, `hyprlauncher` instead of `wofi`.
 ```bash
-pacstrap /mnt hyprland xdg-desktop-portal-hyprland uwsm kitty dunst hyprlauncher nautilus qt5-wayland qt6-wayland hyprpolkitagent grim slurp polkit
+pacstrap /mnt hyprland xdg-desktop-portal-hyprland xdg-desktop-portal-gtk uwsm kitty dunst hyprlauncher nautilus qt5-wayland qt6-wayland hyprpolkitagent grim slurp polkit
 ```
 
 | Package | Purpose |
 |---|---|
 | hyprland | Compositor |
-| xdg-desktop-portal-hyprland | Screen sharing, screenshots via portal, file pickers |
+| xdg-desktop-portal-hyprland | Screen sharing and screenshots via portal |
+| xdg-desktop-portal-gtk | File picker ("Open…"/"Save…" dialogs) for Flatpak and portal-aware apps; xdg-desktop-portal-hyprland has none. The Hyprland wiki recommends pairing them. |
 | uwsm | Runs Hyprland as a systemd user session (clean env + shutdown) |
 | qt5-wayland / qt6-wayland | Native Wayland for Qt apps (qt6 is needed by Quickshell) |
 | kitty | Terminal |
@@ -155,15 +155,15 @@ pacstrap /mnt noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra ttf-li
 
 ### Snapshots
 
-**[AI]** snapper. **[CUSTOM]** plus snap-pac and compsize. Configured in [chapter 4](04-snapper-fstab.md).
+**[AI]** snapper. **[CUSTOM]** plus compsize. Configured in [chapter 4](04-snapper-fstab.md).
 ```bash
-pacstrap /mnt snapper snap-pac compsize
+pacstrap /mnt snapper compsize
 ```
+> [NOTE] **snap-pac is installed after the first boot** ([8.0](08-post-install.md#80-pacman-snapshots-snap-pac)), not here. Its pacman hooks would fire on every later `pacstrap` / chroot `pacman` run, before snapper has a config (chapter 4) and without the D-Bus service snapper talks to, so they fail with snapshot errors. They can also leave files in `/.snapshots`, which then breaks `rmdir` in [4.1](04-snapper-fstab.md#41-create-the-snapper-config-on-the-flat-subvolume).
 
 | Package | Purpose |
 |---|---|
 | snapper | Snapshot manager |
-| snap-pac | Automatic snapper pre/post snapshots around every pacman transaction |
 | compsize | Shows btrfs compression ratio ([8.9](08-post-install.md#89-btrfs-cheat-sheet)) |
 
 ### Additional packages

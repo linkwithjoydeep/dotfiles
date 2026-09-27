@@ -41,14 +41,14 @@ mkfs.fat -F 32 -n EFI /dev/sda1
 
 ## 2.3 Create the LUKS2 container
 
-**[AI]** exact archinstall parameters (`lib/disk/luks.py`):
+**[CUSTOM]** cryptsetup's defaults instead of archinstall's long flag list (`lib/disk/luks.py`):
 ```bash
-cryptsetup --type luks2 --pbkdf argon2id --hash sha512 --key-size 512 --iter-time 2000 --use-urandom --verify-passphrase luksFormat /dev/sda2
+cryptsetup -y -v luksFormat /dev/sda2
 ```
-Type `YES` (uppercase), then your disk password twice.
+Type `YES` (uppercase), then your disk password twice (`-y` asks twice, `-v` prints what it did).
 
-> [CUSTOM] `--iter-time 2000`: argon2 runs for ~2 s each time you type the password. archinstall's default is `10000` (~10 s); Omarchy's installer also uses `2000`.
-> You type this password on **every boot** (it's the only password prompt, see [7.3](07-desktop-services.md#73-greeter-greetd-and-tuigreet)), so 2 s is a good balance. With a strong passphrase, the passphrase length matters far more than the iteration time.
+> [NOTE] The defaults are what archinstall passes explicitly: LUKS2, argon2id, AES-XTS with a 512-bit key, `/dev/urandom`. Two differences: the header hash is sha256 instead of sha512 (no practical effect), and the unlock time is 2 s instead of archinstall's 10 s. Check with `cryptsetup luksDump /dev/sda2`.
+> The 2 s unlock time is also Omarchy's choice. You type this password on **every boot** (it's the only password prompt, see [7.3](07-desktop-services.md#73-greeter-greetd-and-tuigreet)), so 2 s is a good balance. With a strong passphrase, the passphrase length matters far more than the iteration time.
 > To change it later without reformatting: add a new keyslot with `sudo cryptsetup luksAddKey --iter-time <ms> /dev/sda2`, then remove the old one with `sudo cryptsetup luksRemoveKey /dev/sda2` (enter the old passphrase).
 
 Open it:

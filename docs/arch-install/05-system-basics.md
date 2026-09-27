@@ -61,7 +61,7 @@ systemctl enable systemd-zram-setup@zram0.service
 ```bash
 systemctl enable NetworkManager.service
 ```
-Handles Ethernet and Wi-Fi together, with automatic failover. Use `nmtui` / `nmcli` in the terminal, or `nm-applet` in the tray (see [Appendix A](appendix-replacing-components.md#network-manager-applet) for what the applet does).
+Handles Ethernet and Wi-Fi together, with automatic failover. Use `nmtui` (menu interface) or `nmcli` in the terminal, e.g. `nmcli device wifi connect "SSID" --ask`. Saved networks reconnect automatically. A GUI network menu can come later from a Quickshell widget ([Appendix A](appendix-replacing-components.md#network-gui)).
 
 ## 5.5 Users and sudo
 

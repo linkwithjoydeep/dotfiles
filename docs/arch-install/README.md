@@ -59,7 +59,7 @@ The commands use the values below. Replace them wherever they appear if your set
 | Profile | Desktop → Hyprland (polkit seat access), NVIDIA open DKMS |
 | Greeter | greetd: auto-login after disk unlock, tuigreet after logout (to be replaced by a Quickshell greeter later) |
 | Apps | bluetooth, pipewire, cups (+avahi), power-profiles-daemon, ufw, fonts |
-| Network | NetworkManager (wpa_supplicant backend) + applet |
+| Network | NetworkManager (wpa_supplicant backend) |
 | Timezone / NTP | your timezone, systemd-timesyncd |
 | Recovery | On-disk archiso UKI in rEFInd (unsigned; boot it with Secure Boot off) |
 

@@ -32,7 +32,7 @@ This guide is opinionated. Before running any command, this page shows the finis
 | Filesystem | btrfs subvolumes | `/`, `/home`, logs, pacman cache, snapshots | [2.4](02-disk-setup.md#24-create-btrfs-and-subvolumes) |
 | Snapshots | snapper + snap-pac (+ optional `uki-backup`, `snapshot-uki`) | Automatic pre/post snapshots; bootable snapshot entries | [4](04-snapper-fstab.md), [10](10-rollback-addons.md) |
 | Swap | zram-generator | Compressed swap in RAM | [5.3](05-system-basics.md#53-swap-on-zram) |
-| Network | NetworkManager (+ nm-applet) | Ethernet + Wi-Fi | [5.4](05-system-basics.md#54-network) |
+| Network | NetworkManager (`nmtui` / `nmcli`) | Ethernet + Wi-Fi | [5.4](05-system-basics.md#54-network) |
 | Login | greetd: auto-login, then tuigreet | Starts your Hyprland session after the disk is unlocked | [7.3](07-desktop-services.md#73-greeter-greetd-and-tuigreet) |
 | Session | uwsm → Hyprland | Wayland compositor run as a systemd user session | [7.2](07-desktop-services.md#72-hyprland-profile-and-polkit) |
 | Desktop helpers | hyprpolkitagent, xdg-desktop-portal-hyprland, dunst, hyprlauncher, kitty, nautilus | Password dialogs, screen sharing and file pickers, notifications, launcher, terminal, files | [3.2](03-base-install.md#hyprland), [8.1](08-post-install.md#81-hyprland-default-config) |
