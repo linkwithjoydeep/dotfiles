@@ -2,7 +2,6 @@ brew "stow"
 brew "neovim"
 brew "gh"
 
-brew "starship"
 brew "zoxide"
 brew "fzf"
 brew "eza"

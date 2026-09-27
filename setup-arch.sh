@@ -2,6 +2,9 @@
 
 set -e  # Exit on any error
 
+# Shared curl-installed tools (starship, mise, Claude Code) and setup_mise
+source "$(dirname "${BASH_SOURCE[0]}")/setup-common.sh"
+
 # Function to set up XDG state/cache dirs zsh relies on before it ever starts
 setup_zsh_dirs() {
     echo "[INFO] Creating XDG cache/state directories for zsh..."
@@ -50,35 +53,6 @@ install_packages() {
     # partial-upgrades-are-unsupported guidance.
     echo "[INFO] Syncing repos, upgrading system, and installing packages from arch-package-list.txt..."
     sudo pacman -Syu --needed --noconfirm $(cat arch-package-list.txt)
-}
-
-# Function to install starship if missing
-install_starship() {
-    if command -v starship >/dev/null 2>&1; then
-        echo "[INFO] starship already installed"
-        return 0
-    fi
-
-    echo "[INFO] Installing starship..."
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)" -- -y
-}
-
-# Function to install mise if missing
-install_mise() {
-    # mise.run installs to ~/.local/bin, which isn't on PATH until the next
-    # shell starts. Add it now so setup_mise can find mise in this run.
-    case ":${PATH}:" in
-        *":${HOME}/.local/bin:"*) ;;
-        *) export PATH="${HOME}/.local/bin:${PATH}" ;;
-    esac
-
-    if command -v mise >/dev/null 2>&1; then
-        echo "[INFO] mise already installed"
-        return 0
-    fi
-
-    echo "[INFO] Installing mise..."
-    curl -fsSL https://mise.run | sh
 }
 
 # 1Password signs both the AUR package sources and the CLI binary with this key.
@@ -183,17 +157,6 @@ run_stow() {
     fi
 }
 
-# Function to install tool versions pinned via mise
-setup_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
-        echo "[WARNING] mise not found on PATH, skipping 'mise install'"
-        return 0
-    fi
-
-    echo "[INFO] Installing tool versions with mise..."
-    mise install
-}
-
 # Main execution
 main() {
     echo "[INFO] Setting up zsh XDG directories..."
@@ -202,8 +165,7 @@ main() {
 
     echo "[INFO] Setting up packages..."
     install_packages
-    install_starship
-    install_mise
+    install_common_tools
     install_1password
     install_1password_cli
 

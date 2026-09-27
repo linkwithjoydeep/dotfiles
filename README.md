@@ -9,7 +9,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Notes to self for s
    defaults write -g InitialKeyRepeat -int 10
    defaults write -g KeyRepeat -int 1
    ```
-2. `./setup-mac.sh` — sets up zsh XDG dirs + `ZDOTDIR` redirect (sudo, idempotent), `brew bundle` (includes JetBrainsMono Nerd Font, the ghostty/kitty fallback font), installs `mise` via its official `curl` script if missing, stow, `mise install`.
+2. `./setup-mac.sh` — sets up zsh XDG dirs + `ZDOTDIR` redirect (sudo, idempotent), `brew bundle` (includes JetBrainsMono Nerd Font, the ghostty/kitty fallback font), installs the shared tools from `setup-common.sh` if missing, stow, `mise install`.
 3. Restart terminal (ZDOTDIR only applies to new shells).
 4. Manual, can't script:
    - 1Password app > Settings > Developer > enable "Use the SSH agent", then `op signin`
@@ -19,13 +19,17 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Notes to self for s
 
 ## Arch Linux
 
-`./setup-arch.sh` — same idea via `pacman -Syu` + `arch-package-list.txt`, installs `starship`/`mise` via their official `curl` scripts if missing, installs 1Password + the 1Password CLI if missing, stow, `mise install`. Same manual steps as above.
+`./setup-arch.sh` — same idea via `pacman -Syu` + `arch-package-list.txt`, installs the shared tools from `setup-common.sh` if missing, installs 1Password + the 1Password CLI if missing, stow, `mise install`. Same manual steps as above.
 
 1Password isn't in Arch's official repos, so the script handles both parts itself:
 - **Desktop app**: built from the AUR (`1password`) with `makepkg -si` after importing 1Password's signing key. The clone lives in a temp dir that's deleted afterwards, since it's only needed to build. The script skips an installed 1Password, so to update, repeat the clone + `makepkg -si` by hand (or use an AUR helper).
 - **CLI**: the official release zip for the pinned `OP_CLI_VERSION` in `setup-arch.sh`, signature-checked with `gpg --verify`, installed to `/usr/local/bin/op` in the `onepassword-cli` group with setgid (required for the desktop app integration). To upgrade, bump `OP_CLI_VERSION` and re-run.
 
 Homebrew-only casks (OrbStack, Jumpcut) have no Linux equivalent, skipped. Ghostty/Bruno aren't installed by the script — install them via pacman/AUR.
+
+## Shared tools
+
+`setup-common.sh` is sourced by both setup scripts (not run directly). It holds tools installed the same way on every platform, via their official `curl` scripts: `starship`, `mise`, Claude Code. They're kept out of the Brewfile and pacman list on purpose. To add another such tool, add an `install_<tool>` function there and call it from `install_common_tools`.
 
 ## Re-apply after editing configs
 

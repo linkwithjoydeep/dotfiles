@@ -2,6 +2,9 @@
 
 set -e  # Exit on any error
 
+# Shared curl-installed tools (starship, mise, Claude Code) and setup_mise
+source "$(dirname "${BASH_SOURCE[0]}")/setup-common.sh"
+
 # Function to install Homebrew
 install_homebrew() {
     echo "[INFO] Homebrew not found. Installing Homebrew..."
@@ -84,35 +87,6 @@ fi
     echo "[SUCCESS] $zshenv updated. Restart your terminal for this to take effect."
 }
 
-# Function to install mise if missing
-install_mise() {
-    # mise.run installs to ~/.local/bin, which isn't on PATH until the next
-    # shell starts. Add it now so setup_mise can find mise in this run.
-    case ":${PATH}:" in
-        *":${HOME}/.local/bin:"*) ;;
-        *) export PATH="${HOME}/.local/bin:${PATH}" ;;
-    esac
-
-    if command -v mise >/dev/null 2>&1; then
-        echo "[INFO] mise already installed"
-        return 0
-    fi
-
-    echo "[INFO] Installing mise..."
-    curl -fsSL https://mise.run | sh
-}
-
-# Function to install tool versions pinned via mise
-setup_mise() {
-    if ! command -v mise >/dev/null 2>&1; then
-        echo "[WARNING] mise not found on PATH, skipping 'mise install'"
-        return 0
-    fi
-
-    echo "[INFO] Installing tool versions with mise..."
-    mise install
-}
-
 # Function to run stow
 # --no-folding: keep e.g. ~/.config/1Password a real directory (only tracked
 # files inside it become symlinks) instead of stow symlinking the whole
@@ -184,7 +158,7 @@ main() {
     # Install packages from Brewfile
     echo "[INFO] Installing packages from Brewfile..."
     $brew_cmd bundle --verbose
-    install_mise
+    install_common_tools
 
     # Run stow after successful package installation
     if run_stow; then
