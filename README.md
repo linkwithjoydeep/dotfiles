@@ -9,7 +9,7 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Notes to self for s
    defaults write -g InitialKeyRepeat -int 10
    defaults write -g KeyRepeat -int 1
    ```
-2. `./setup-mac.sh` — sets up zsh XDG dirs + `ZDOTDIR` redirect (sudo, idempotent), `brew bundle` (includes JetBrainsMono Nerd Font, the ghostty/kitty fallback font), stow, `mise install`.
+2. `./setup-mac.sh` — sets up zsh XDG dirs + `ZDOTDIR` redirect (sudo, idempotent), `brew bundle` (includes JetBrainsMono Nerd Font, the ghostty/kitty fallback font), installs `mise` via its official `curl` script if missing, stow, `mise install`.
 3. Restart terminal (ZDOTDIR only applies to new shells).
 4. Manual, can't script:
    - 1Password app > Settings > Developer > enable "Use the SSH agent", then `op signin`

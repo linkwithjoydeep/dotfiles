@@ -84,6 +84,24 @@ fi
     echo "[SUCCESS] $zshenv updated. Restart your terminal for this to take effect."
 }
 
+# Function to install mise if missing
+install_mise() {
+    # mise.run installs to ~/.local/bin, which isn't on PATH until the next
+    # shell starts. Add it now so setup_mise can find mise in this run.
+    case ":${PATH}:" in
+        *":${HOME}/.local/bin:"*) ;;
+        *) export PATH="${HOME}/.local/bin:${PATH}" ;;
+    esac
+
+    if command -v mise >/dev/null 2>&1; then
+        echo "[INFO] mise already installed"
+        return 0
+    fi
+
+    echo "[INFO] Installing mise..."
+    curl -fsSL https://mise.run | sh
+}
+
 # Function to install tool versions pinned via mise
 setup_mise() {
     if ! command -v mise >/dev/null 2>&1; then
@@ -166,6 +184,7 @@ main() {
     # Install packages from Brewfile
     echo "[INFO] Installing packages from Brewfile..."
     $brew_cmd bundle --verbose
+    install_mise
 
     # Run stow after successful package installation
     if run_stow; then
