@@ -1,0 +1,52 @@
+FUTURE: publish this guide as a static site with Astro Starlight
+===============================================================
+
+Goal: companion site for the "Arch Linux for dummies" video series.
+Planned chapters beyond the install: nvim, zsh (completion etc.),
+Quickshell shell, Hyprland config, and more.
+
+Why Starlight
+- Chapter/sidebar navigation, built-in search, dark/light theme.
+- <Tabs> component: good for hardware variants (NVIDIA / AMD / Intel,
+  desktop / laptop) instead of "if you have X" notes.
+- Asides (note / tip / caution / danger) map onto the [NOTE] tags and
+  the ⚠️ warnings used in these files.
+- Plain .md works as-is; switch a page to .mdx only when it needs tabs
+  or other components.
+- Alternatives considered: mdBook (simplest, no tabs without plugins),
+  MkDocs Material (moving to its successor Zensical).
+
+Setup steps (when ready)
+1. Needs Node.js (LTS). Create the site, e.g. in a separate repo or a
+   docs/ folder:
+     npm create astro@latest -- --template starlight
+2. Copy these .md files to src/content/docs/ (keep a folder per part,
+   e.g. src/content/docs/install/).
+3. Add frontmatter to each page (Starlight requires a title), e.g.
+     ---
+     title: 1. Prepare the live environment
+     ---
+   and drop the page's own "# ..." H1 (Starlight renders the title).
+4. Sidebar: configure in astro.config.mjs (starlight({ sidebar: [...] }))
+   in chapter order, or use autogenerate on the folder and control
+   order with `sidebar: { order: N }` in each page's frontmatter.
+5. Links: the files use relative links like 03-base-install.md#32-install-packages.
+   Starlight serves pages as /install/03-base-install/ (no .md), so
+   rewrite links (strip ".md") or add a remark plugin that does it.
+   Check that the heading anchors still match (Starlight uses
+   github-slugger, same as the anchors used here).
+6. Diagrams: 00-overview.md uses ```mermaid code blocks (GitHub renders
+   them natively). Starlight does not: add a Mermaid integration, e.g.
+   `astro-mermaid` or `rehype-mermaid`, or pre-render them to SVG.
+   The text trees (disk / ESP layout, boot menu) are plain code blocks
+   and need nothing.
+7. Optional conversions:
+   - "> [NOTE] ..." blockquotes  ->  :::note ... :::
+   - "> ⚠️ ..." warnings          ->  :::caution ... :::
+   - "Different hardware" table   ->  <Tabs> on the affected steps
+   - Long scripts (snapshot-uki, refind-sync) -> <Code> with a title
+     or downloadable files in public/.
+8. Deploy: GitHub Pages (withastro/action) or Cloudflare Pages / Netlify.
+   Set `site` (and `base` if served from a subpath) in astro.config.mjs.
+9. Link each video's description to the matching chapter, and add the
+   video embed at the top of each chapter page.

@@ -1,0 +1,3 @@
+# docs/ is not a stow package: this pattern ignores everything in it,
+# so `stow --no-folding --target="$HOME" */` links nothing from here.
+.*

@@ -37,6 +37,8 @@ stow --no-folding --target="${HOME}" */          # or a single package, e.g. `zs
 mise install
 ```
 
+`docs/` holds documentation, e.g. a manual Arch Linux install guide (start at [`docs/arch-install/README.md`](docs/arch-install/README.md)). It is not a stow package: `docs/.stow-local-ignore` ignores everything in it, so `stow … */` links nothing from there.
+
 `stow -D <package>` to unstow.
 
 `--no-folding` keeps directories like `~/.config/1Password` as real directories (only the files actually tracked in the repo, e.g. `ssh/agent.toml`, become symlinks), so app-managed files it writes later (1Password's sqlite/settings files) stay out of the repo instead of landing inside a stow-created directory symlink. If you set a machine up before this flag was added, one-time fix: `stow -D <package>` to remove the old folded symlink, then `stow --no-folding --target="${HOME}" <package>` to relink it per-file.
