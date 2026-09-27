@@ -17,22 +17,20 @@ Managed with [GNU Stow](https://www.gnu.org/software/stow/). Notes to self for s
    - `tmux` then `Ctrl+b, Shift+I` to install plugins via TPM
    - If you own DankMono, patch/install its Nerd Font variant yourself (paid font, can't be scripted) — see "Layout notes" below for how it's picked up
 
-## Linux (Fedora, Arch)
+## Arch Linux
 
-`./setup-fedora.sh` — same idea via `dnf` + `linux-package-list.txt` + `fedora-package-list.txt`, installs `starship`/`mise`/JetBrainsMono Nerd Font if missing, stow, `mise install`. Same manual steps as above.
+`./setup-arch.sh` — same idea via `pacman -Syu` + `arch-package-list.txt`, installs `starship`/`mise` via their official `curl` scripts if missing, installs 1Password + the 1Password CLI if missing, stow, `mise install`. Same manual steps as above.
 
-`./setup-arch.sh` — same idea via `pacman -Syu` + `linux-package-list.txt` + `arch-package-list.txt` (lazygit and JetBrainsMono Nerd Font both ship in Arch's `extra` repo, no copr/manual install needed), installs `starship`/`mise` if missing, stow, `mise install`. Same manual steps as above.
+1Password isn't in Arch's official repos, so the script handles both parts itself:
+- **Desktop app**: built from the AUR (`1password`) with `makepkg -si` after importing 1Password's signing key. The clone lives in a temp dir that's deleted afterwards, since it's only needed to build. The script skips an installed 1Password, so to update, repeat the clone + `makepkg -si` by hand (or use an AUR helper).
+- **CLI**: the official release zip for the pinned `OP_CLI_VERSION` in `setup-arch.sh`, signature-checked with `gpg --verify`, installed to `/usr/local/bin/op` in the `onepassword-cli` group with setgid (required for the desktop app integration). To upgrade, bump `OP_CLI_VERSION` and re-run.
 
-`linux-package-list.txt` holds packages whose name is identical in both `dnf` and `pacman`. `fedora-package-list.txt` / `arch-package-list.txt` hold the exceptions: `gh` is named `github-cli` on Arch, `tectonic` isn't packaged for Fedora at all (the Fedora script prints a tip to install it manually), and JetBrainsMono Nerd Font is `ttf-jetbrains-mono-nerd` on Arch but has no Fedora package at all. `starship`/`mise`/JetBrainsMono Nerd Font (on Fedora) are intentionally in neither list — Fedora doesn't ship them in official repos, so the Fedora script installs them via `curl` instead, matching what `brew` does on macOS.
-
-Homebrew-only casks (OrbStack, Jumpcut) have no Linux equivalent, skipped. Ghostty/Bruno/1Password aren't installed by the script — install via distro's usual channel.
-
-Adapting for another distro: swap the package manager + list file names, check `/etc/zshenv` path (Debian/Ubuntu use `/etc/zsh/zshenv`).
+Homebrew-only casks (OrbStack, Jumpcut) have no Linux equivalent, skipped. Ghostty/Bruno aren't installed by the script — install them via pacman/AUR.
 
 ## Re-apply after editing configs
 
 ```bash
-brew bundle                                      # or pacman -Syu --needed $(cat linux-package-list.txt arch-package-list.txt) / dnf install -y $(cat linux-package-list.txt fedora-package-list.txt)
+brew bundle                                      # or pacman -Syu --needed $(cat arch-package-list.txt)
 stow --no-folding --target="${HOME}" */          # or a single package, e.g. `zsh`
 mise install
 ```
