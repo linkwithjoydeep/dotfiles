@@ -140,9 +140,9 @@ Printer vendor drivers are **not** bundled. Modern printers work driverless; see
 
 ### Fonts
 
-**[AI]** **[CUSTOM]** plus noto-fonts-extra and JetBrains Mono Nerd.
+**[AI]** **[CUSTOM]** plus noto-fonts-extra, JetBrains Mono Nerd, Iosevka Nerd and Material Icons.
 ```bash
-pacstrap /mnt noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra ttf-liberation ttf-jetbrains-mono-nerd
+pacstrap /mnt noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra ttf-liberation ttf-jetbrains-mono-nerd ttf-iosevka-nerd ttf-material-icons
 ```
 
 | Package | Purpose |
@@ -150,6 +150,8 @@ pacstrap /mnt noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra ttf-li
 | noto-fonts (+emoji, cjk, extra) | Coverage for almost every script + color emoji |
 | ttf-liberation | Metric-compatible Arial/Times/Courier: fixes layouts in websites, Steam, Proton games, office docs |
 | ttf-jetbrains-mono-nerd | Terminal/coding font with Nerd icons (for Quickshell/bar icons) |
+| ttf-iosevka-nerd | Narrow terminal/coding font with Nerd icons |
+| ttf-material-icons | Google's Material Icons (classic static style) as a font, for icon glyphs in Quickshell/bar UIs |
 
 ### Snapshots
 
