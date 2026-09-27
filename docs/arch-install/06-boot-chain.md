@@ -142,7 +142,14 @@ Create the UKI folder and remove the old initramfs images **[AI]**:
 mkdir -p /efi/EFI/Linux
 rm /boot/initramfs-*.img
 ```
-> [CUSTOM] Fallback UKIs are enabled. Without `autodetect` they contain all modules, which makes them the rescue option if hardware changes. Expect roughly 4 UKIs × 100–250 MB (NVIDIA GSP firmware is large), which fits comfortably in the 5 GiB ESP.
+> [CUSTOM] **Fallback UKIs are enabled.** Each kernel gets two UKIs that differ only in the initramfs inside:
+> - `arch-linux.efi` (**default**): the `autodetect` hook scans the machine *while building* and keeps only the modules this hardware uses (your storage controller, GPU, keyboard…). Small and quick to load.
+> - `arch-linux-fallback.efi` (`-S autodetect` = skip that hook): contains every storage, filesystem, input and GPU module mkinitcpio knows, so it isn't tied to the current hardware. Same kernel and cmdline.
+>
+> Boot the fallback when the default can't find or unlock the disk because the hardware changed: the disk moved to another machine, the SATA/NVMe controller mode changed in the BIOS (e.g. AHCI ↔ RAID), a new keyboard doesn't work at the password prompt, or a hardware-specific initramfs problem after an update. Once booted, run `sudo mkinitcpio -P` so the default UKI is rebuilt for the new hardware.
+>
+> Cost: the fallbacks are the largest files on the ESP (~250–350 MB each; for comparison, the Arch ISO's all-hardware initramfs alone is ~245 MB) while the defaults are ~100–150 MB: roughly 0.9 GB for all 4 UKIs. That's why `uki-backup` ([10.1](10-rollback-addons.md#101-uki-backup-inside-every-snapshot)) skips them. On hardware that never changes, the LTS kernel is often the more useful safety net.
+> To drop them: set `PRESETS=('default')` in both preset files, delete the two `*-fallback.efi` files, and (if you use [10.2](10-rollback-addons.md#102-snapshot-boot-entries)) remove the two "Fallback" submenu entries from `snapshot-uki`.
 
 ## 6.5 Plymouth theme
 

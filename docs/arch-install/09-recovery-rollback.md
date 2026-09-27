@@ -10,13 +10,13 @@
 - The official ISO's initramfs (the `archiso` hook) doesn't need the ISO itself. It finds the folder holding its root filesystem image by the partition's UUID (`archisosearchuuid=`) and a folder name (`archisobasedir=`).
 - So we copy just **three things** from the ISO:
   - the kernel (`vmlinuz-linux`) and initramfs (`initramfs-linux.img`, which already includes microcode), wrapped into one **recovery UKI**;
-  - the **root filesystem image** folder `arch/x86_64/` (`airootfs.sfs` + checksum/signature files), copied to the ESP. This is the live system itself, ~1 GB, so it can't be skipped.
+  - the **root filesystem image** folder `arch/x86_64/` (`airootfs.sfs` + checksum/signature files), copied to the ESP. This is the live system itself, ~1.1 GB, so it can't be skipped.
 - The ISO file is deleted afterwards.
 
 **ESP layout:**
 ```
 /efi/EFI/recovery/archiso-recovery.efi   ← recovery UKI (kernel + initramfs + cmdline)
-/efi/recovery/x86_64/airootfs.sfs         ← live root filesystem (~1 GB)
+/efi/recovery/x86_64/airootfs.sfs         ← live root filesystem (~1.1 GB)
 /efi/recovery/x86_64/airootfs.sha512      ← checksum (verified at boot with checksum=y)
 ```
 The live system is copied to RAM at boot (`copytoram` is automatic when there's enough RAM), so the ESP isn't kept busy.
@@ -47,7 +47,7 @@ The live system is copied to RAM at boot (`copytoram` is automatic when there's 
    ls -lh arch/boot/x86_64 arch/x86_64
    ```
    You should see `vmlinuz-linux` and `initramfs-linux.img`, and `airootfs.sfs`, `airootfs.sha512` and signature files.
-5. Refresh: remove the previous recovery files, then check space (you need ~1.3 GB free):
+5. Refresh: remove the previous recovery files, then check space (you need ~1.5 GB free):
    ```bash
    sudo rm -rf /efi/recovery /efi/EFI/recovery
    df -h /efi

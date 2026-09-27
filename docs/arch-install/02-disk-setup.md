@@ -6,9 +6,11 @@ Runs on the **live ISO**. archinstall equivalent: `FilesystemHandler.perform_fil
 
 ## 2.1 Partition
 
-**[AI]** best-effort layout. **[CUSTOM]** 5 GiB ESP mounted at `/efi`.
+**[AI]** best-effort layout. **[CUSTOM]** 8 GiB ESP mounted at `/efi`.
 
-Archinstall creates a 1 GiB FAT32 ESP at `/boot`. We use 5 GiB at `/efi` so that `/boot` (kernels) stays inside the encrypted `@` subvolume, which means it gets snapshotted. The ESP only holds rEFInd, the UKIs, themes, the optional recovery environment ([9.1](09-recovery-rollback.md#91-on-disk-recovery-environment)) and optional snapshot UKIs ([10.2](10-rollback-addons.md#102-snapshot-boot-entries)).
+Archinstall creates a 1 GiB FAT32 ESP at `/boot`. We use 8 GiB at `/efi` so that `/boot` (kernels) stays inside the encrypted `@` subvolume, which means it gets snapshotted. The ESP only holds rEFInd, the UKIs, themes, the optional recovery environment ([9.1](09-recovery-rollback.md#91-on-disk-recovery-environment)) and optional snapshot UKIs ([10.2](10-rollback-addons.md#102-snapshot-boot-entries)).
+
+Why 8 GiB: the worst case today is about 2.7 GB (4 UKIs ≈ 0.9 GB, 3 snapshot UKIs ≈ 0.45 GB, recovery ≈ 1.35 GB; the per-snapshot UKI backups live on btrfs, not here), so 5 GiB would fit. But the ESP sits **in front of** the LUKS partition, so growing it later means shrinking LUKS + btrfs from their start, which is painful. 8 GiB leaves room for bigger ISOs and firmware, more snapshot entries (`KEEP=`) or a second recovery image, for under 2% of a 500 GB disk.
 
 1. Confirm the disk. Check that the MODEL and SIZE columns match the disk you intend to wipe:
    ```bash
@@ -23,10 +25,10 @@ Archinstall creates a 1 GiB FAT32 ESP at `/boot`. We use 5 GiB at `/efi` so that
    cfdisk /dev/sda
    ```
    - "Select label type" → **gpt**
-   - **[ New ]** → size `5G` → **[ Type ]** → `EFI System`
+   - **[ New ]** → size `8G` → **[ Type ]** → `EFI System`
    - Arrow down to the remaining free space → **[ New ]** → accept the full size → **[ Type ]** → `Linux LUKS` (if that isn't listed, `Linux filesystem` works too)
    - **[ Write ]** → type `yes` → **[ Quit ]**
-4. Check the result. You should see `sda1` at 5G and `sda2` taking the rest:
+4. Check the result. You should see `sda1` at 8G and `sda2` taking the rest:
    ```bash
    lsblk /dev/sda
    ```

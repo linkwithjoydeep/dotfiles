@@ -61,7 +61,7 @@ Everything else is **comfort or safety**: snapshots (`snapper`, `snap-pac`), aud
 
 ```
 /dev/sda  (GPT)
-├─ sda1   5 GiB   FAT32 "EFI"   → /efi          not encrypted (firmware must read it)
+├─ sda1   8 GiB   FAT32 "EFI"   → /efi          not encrypted (firmware must read it)
 └─ sda2   rest    LUKS2 (argon2id, password)
    └─ /dev/mapper/root    btrfs "arch"  (zstd, noatime)
       ├─ @            → /                        snapshotted
@@ -102,7 +102,7 @@ Built in [chapter 2](02-disk-setup.md) and [chapter 4](04-snapper-fstab.md).
 │     └─ archiso-recovery.efi          Arch ISO kernel + initramfs, UNSIGNED on purpose;
 │                                      also its own firmware boot entry  (optional, 9.1)
 └─ recovery/
-   └─ x86_64/airootfs.sfs (+ .sha512, .sig)   Arch ISO live system, ~1 GB  (optional, 9.1)
+   └─ x86_64/airootfs.sfs (+ .sha512, .sig)   Arch ISO live system, ~1.1 GB  (optional, 9.1)
 ```
 
 Inside the encrypted `@` (so part of every snapshot):
@@ -111,7 +111,29 @@ Inside the encrypted `@` (so part of every snapshot):
 /boot/uki-backup/arch-linux*.efi            copies of the current UKIs   (optional, 10.1)
 ```
 
-Rough space use: 4 UKIs × 100–250 MB, 3 snapshot UKIs × 100–150 MB, recovery ~1.3 GB, which fits in 5 GiB.
+Rough space use: 4 UKIs ≈ 0.9 GB (fallbacks are the largest), 3 snapshot UKIs ≈ 0.45 GB, recovery ≈ 1.35 GB: about 2.7 GB of the 8 GiB, leaving room to grow ([why 8 GiB](02-disk-setup.md#21-partition)).
+
+## Rollback UKIs: where they live
+
+**[OPTIONAL]** ([chapter 10](10-rollback-addons.md)). Two kinds of extra UKIs make rollbacks faster, and they live in different places:
+
+- **UKI backups** (10.1): a copy of the current UKIs in `/boot/uki-backup/`. That folder is inside `@`, so **every snapshot** carries the UKI matching its kernel. They're on the encrypted btrfs, not the ESP; unchanged copies are shared between snapshots, so only kernel updates add space (~250 MB each, until snapper cleans up).
+- **Snapshot boot entries** (10.2): bootable UKIs on the ESP for the **newest 3** pre-update snapshots only, built *from* those backups.
+
+```mermaid
+flowchart TB
+    CUR["ESP: EFI/Linux/arch-linux.efi, arch-linux-lts.efi<br/>current UKIs, signed"]
+    BK["btrfs @: /boot/uki-backup/<br/>copy of the current UKIs"]
+    SN["btrfs @snapshots/N/snapshot/boot/uki-backup/<br/>UKIs matching snapshot N's kernel<br/>(one set per snapshot, encrypted)"]
+    SNAPUKI["ESP: EFI/Linux/arch-snapshot-N.efi<br/>newest 3 only, signed"]
+    MENU["rEFInd: Arch Linux ▸ Snapshot N"]
+    CUR -->|"1. uki-backup hook, before each pacman run"| BK
+    BK -->|"2. snap-pac pre snapshot (includes /boot)"| SN
+    SN -->|"3. snapshot-uki: same kernel + initramfs,<br/>root = snapshot N read-only, signed"| SNAPUKI
+    SNAPUKI --> MENU
+    SN -.->|"rollback: copy back instead of mkinitcpio -P"| CUR
+```
+
 
 Built in [6.4](06-boot-chain.md#64-uki-presets)–[6.7](06-boot-chain.md#67-refind), [9.1](09-recovery-rollback.md#91-on-disk-recovery-environment) and [10.2](10-rollback-addons.md#102-snapshot-boot-entries).
 

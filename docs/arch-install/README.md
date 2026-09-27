@@ -46,7 +46,7 @@ The commands use the values below. Replace them wherever they appear if your set
 | Mirrors | Worldwide first, then reflector-picked fastest local mirrors as fallback |
 | Repos | core, extra, **multilib** |
 | Disk | Single disk, GPT |
-| Partitions | partition 1: 5 GiB FAT32 ESP → `/efi` · partition 2: rest → LUKS2 → btrfs |
+| Partitions | partition 1: 8 GiB FAT32 ESP → `/efi` · partition 2: rest → LUKS2 → btrfs |
 | Subvolumes | `@`→`/`, `@home`→`/home`, `@log`→`/var/log`, `@pkg`→`/var/cache/pacman/pkg`, `@snapshots`→`/.snapshots` |
 | btrfs options | `compress=zstd`, `noatime`, CoW on |
 | Encryption | LUKS2 password typed at the Plymouth prompt on every boot, then greetd auto-login (one password prompt). Secure Boot via sbctl. TPM2 unlock optional, off by default |
