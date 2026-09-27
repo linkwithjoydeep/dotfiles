@@ -74,6 +74,13 @@ install_starship() {
 
 # Function to install mise if missing
 install_mise() {
+    # mise.run installs to ~/.local/bin, which isn't on PATH until the next
+    # shell starts. Add it now so setup_mise can find mise in this run.
+    case ":${PATH}:" in
+        *":${HOME}/.local/bin:"*) ;;
+        *) export PATH="${HOME}/.local/bin:${PATH}" ;;
+    esac
+
     if command -v mise >/dev/null 2>&1; then
         echo "[INFO] mise already installed"
         return 0
